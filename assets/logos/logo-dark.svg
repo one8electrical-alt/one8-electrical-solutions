@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="100%" height="100%" aria-label="ONE8 Electrical Solutions Logo">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="electricBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00c6ff" />
+      <stop offset="100%" stop-color="#0072ff" />
+    </linearGradient>
+    <linearGradient id="electricYellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffea00" />
+      <stop offset="100%" stop-color="#ffaa00" />
+    </linearGradient>
+    <!-- Glow Filter -->
+    <filter id="yellowGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComponentTransfer in="blur" result="glow1">
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode in="glow1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g transform="translate(10, 10)">
+    <!-- Circuit Cable Ring -->
+    <path d="M 74.74,25.25 A 35,35 0 1,0 74.74,74.74 C 77,77 78,80 75,83 C 71.5,87 64,90 50,90 A 40,40 0 1,1 80,45" fill="none" stroke="url(#electricBlueGrad)" stroke-width="5" stroke-linecap="round" />
+
+    <!-- Plug Cable and 2-Pin Plug -->
+    <path d="M 74.74,74.74 C 88,88 95,70 95,50 C 95,38 88,32 88,25" fill="none" stroke="url(#electricBlueGrad)" stroke-width="4" stroke-linecap="round" />
+    
+    <!-- 2-Pin Plug Body -->
+    <path d="M 81,25 L 95,25 L 92,15 L 84,15 Z" fill="url(#electricBlueGrad)" />
+    
+    <!-- 2-Pin Tines -->
+    <rect x="85" y="7" width="2.5" height="8" rx="1" fill="url(#electricYellowGrad)" />
+    <rect x="90.5" y="7" width="2.5" height="8" rx="1" fill="url(#electricYellowGrad)" />
+
+    <!-- Lightning Bolt inside circle -->
+    <path d="M 52,18 L 33,52 L 47,52 L 38,82 L 67,44 L 52,44 Z" fill="url(#electricYellowGrad)" filter="url(#yellowGlow)" />
+  </g>
+
+  <!-- Typography -->
+  <text x="130" y="58" font-family="'Outfit', sans-serif" font-weight="900" font-size="44" fill="#ffffff" letter-spacing="1.5">
+    ONE<tspan fill="url(#electricYellowGrad)">8</tspan>
+  </text>
+  
+  <text x="130" y="85" font-family="'Inter', sans-serif" font-weight="700" font-size="14" fill="#a0aec0" letter-spacing="6">
+    ELECTRICAL SOLUTIONS
+  </text>
+</svg>

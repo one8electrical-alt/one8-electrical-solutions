@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="panGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0066ff" />
+      <stop offset="100%" stop-color="#00c6ff" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="600" fill="url(#panGrad)"/>
+  
+  <g stroke="#ffffff" stroke-opacity="0.05" stroke-width="1">
+    <line x1="100" y1="0" x2="100" y2="600" /><line x1="200" y1="0" x2="200" y2="600" /><line x1="300" y1="0" x2="300" y2="600" /><line x1="400" y1="0" x2="400" y2="600" /><line x1="500" y1="0" x2="500" y2="600" /><line x1="600" y1="0" x2="600" y2="600" /><line x1="700" y1="0" x2="700" y2="600" />
+    <line x1="0" y1="100" x2="800" y2="100" /><line x1="0" y1="200" x2="800" y2="200" /><line x1="0" y1="300" x2="800" y2="300" /><line x1="0" y1="400" x2="800" y2="400" /><line x1="0" y1="500" x2="800" y2="500" />
+  </g>
+  
+  <!-- Control Panel board cabinet outline -->
+  <rect x="230" y="80" width="340" height="360" rx="6" fill="#1e293b" stroke="url(#accentGrad)" stroke-width="6" />
+  <!-- Door lock details -->
+  <circle cx="260" cy="260" r="12" fill="none" stroke="#ffd700" stroke-width="3" />
+  <line x1="260" y1="254" x2="260" y2="266" stroke="#ffd700" stroke-width="3" />
+  
+  <!-- Analog Meters -->
+  <circle cx="340" cy="160" r="40" fill="none" stroke="#ffd700" stroke-width="3" />
+  <!-- Meter dial pointer -->
+  <line x1="340" y1="160" x2="365" y2="135" stroke="#ef4444" stroke-width="3" stroke-linecap="round" />
+  <text x="340" y="220" font-family="'Inter', sans-serif" font-weight="700" font-size="12" fill="#ffffff" text-anchor="middle">VOLTS</text>
+  
+  <circle cx="460" cy="160" r="40" fill="none" stroke="#ffd700" stroke-width="3" />
+  <line x1="460" y1="160" x2="480" y2="175" stroke="#ef4444" stroke-width="3" stroke-linecap="round" />
+  <text x="460" y="220" font-family="'Inter', sans-serif" font-weight="700" font-size="12" fill="#ffffff" text-anchor="middle">AMPS</text>
+  
+  <!-- Switches and Indicators -->
+  <circle cx="310" cy="300" r="15" fill="#ef4444" /> <!-- Red Indicator -->
+  <circle cx="400" cy="300" r="15" fill="#22c55e" /> <!-- Green Indicator -->
+  <circle cx="490" cy="300" r="15" fill="#ffd700" /> <!-- Yellow Indicator -->
+  
+  <!-- Main Breaker lever switch -->
+  <rect x="375" y="350" width="50" height="60" rx="3" fill="#0f172a" stroke="#ffffff" stroke-width="2" />
+  <line x1="400" y1="360" x2="400" y2="400" stroke="#ffd700" stroke-width="6" stroke-linecap="round" />
+
+  <text x="400" y="520" font-family="'Outfit', sans-serif" font-weight="900" font-size="28" fill="#ffffff" text-anchor="middle">
+    PANEL BOARD FABRICATION
+  </text>
+  <text x="400" y="550" font-family="'Inter', sans-serif" font-weight="500" font-size="14" fill="#ffd700" text-anchor="middle" letter-spacing="4">
+    custom lt/ht control switchboards
+  </text>
+</svg>
