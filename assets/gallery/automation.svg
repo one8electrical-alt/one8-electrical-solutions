@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="autGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0066ff" />
+      <stop offset="100%" stop-color="#00c6ff" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="600" fill="url(#autGrad)"/>
+  
+  <g stroke="#ffffff" stroke-opacity="0.05" stroke-width="1">
+    <line x1="100" y1="0" x2="100" y2="600" /><line x1="200" y1="0" x2="200" y2="600" /><line x1="300" y1="0" x2="300" y2="600" /><line x1="400" y1="0" x2="400" y2="600" /><line x1="500" y1="0" x2="500" y2="600" /><line x1="600" y1="0" x2="600" y2="600" /><line x1="700" y1="0" x2="700" y2="600" />
+    <line x1="0" y1="100" x2="800" y2="100" /><line x1="0" y1="200" x2="800" y2="200" /><line x1="0" y1="300" x2="800" y2="300" /><line x1="0" y1="400" x2="800" y2="400" /><line x1="0" y1="500" x2="800" y2="500" />
+  </g>
+  
+  <!-- Smart automation console / chip schematic -->
+  <rect x="260" y="140" width="280" height="220" rx="10" fill="none" stroke="url(#accentGrad)" stroke-width="5" />
+  <!-- PLC modules inside -->
+  <rect x="290" y="170" width="50" height="160" fill="none" stroke="#ffd700" stroke-width="3" />
+  <circle cx="315" cy="200" r="6" fill="#00c6ff" />
+  <circle cx="315" cy="230" r="6" fill="#00c6ff" />
+  <circle cx="315" cy="260" r="6" fill="#00c6ff" />
+  <circle cx="315" cy="290" r="6" fill="#22c55e" />
+  
+  <rect x="360" y="170" width="50" height="160" fill="none" stroke="#ffd700" stroke-width="3" />
+  <line x1="365" y1="200" x2="405" y2="200" stroke="#ffd700" stroke-width="2" />
+  <line x1="365" y1="230" x2="405" y2="230" stroke="#ffd700" stroke-width="2" />
+  <line x1="365" y1="260" x2="405" y2="260" stroke="#ffd700" stroke-width="2" />
+
+  <rect x="430" y="170" width="80" height="160" fill="none" stroke="url(#accentGrad)" stroke-width="3" />
+  <!-- Screen grid and wave graph -->
+  <path d="M 440,250 Q 450,210 460,250 T 480,250 T 500,250" fill="none" stroke="#ffd700" stroke-width="3" />
+
+  <!-- Data flow lines -->
+  <path d="M150,250 L260,250 M540,250 L650,250" stroke="url(#accentGrad)" stroke-dasharray="10,5" stroke-width="3" />
+  
+  <text x="400" y="520" font-family="'Outfit', sans-serif" font-weight="900" font-size="28" fill="#ffffff" text-anchor="middle">
+    AUTOMATION &amp; PLC SYSTEMS
+  </text>
+  <text x="400" y="550" font-family="'Inter', sans-serif" font-weight="500" font-size="14" fill="#00c6ff" text-anchor="middle" letter-spacing="4">
+    industrial scada &amp; logic setups
+  </text>
+</svg>

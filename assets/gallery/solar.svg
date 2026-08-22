@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="solGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0066ff" />
+      <stop offset="100%" stop-color="#00c6ff" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="600" fill="url(#solGrad)"/>
+  
+  <g stroke="#ffffff" stroke-opacity="0.05" stroke-width="1">
+    <line x1="100" y1="0" x2="100" y2="600" /><line x1="200" y1="0" x2="200" y2="600" /><line x1="300" y1="0" x2="300" y2="600" /><line x1="400" y1="0" x2="400" y2="600" /><line x1="500" y1="0" x2="500" y2="600" /><line x1="600" y1="0" x2="600" y2="600" /><line x1="700" y1="0" x2="700" y2="600" />
+    <line x1="0" y1="100" x2="800" y2="100" /><line x1="0" y1="200" x2="800" y2="200" /><line x1="0" y1="300" x2="800" y2="300" /><line x1="0" y1="400" x2="800" y2="400" /><line x1="0" y1="500" x2="800" y2="500" />
+  </g>
+  
+  <!-- Sun / Solar ray graphic -->
+  <circle cx="400" cy="180" r="50" fill="none" stroke="#ffd700" stroke-width="5" />
+  <path d="M400,100 L400,120 M400,240 L400,260 M320,180 L340,180 M460,180 L480,180 M340,120 L355,135 M445,225 L460,240 M445,120 L430,135 M355,225 L340,240" stroke="#ffd700" stroke-width="4" stroke-linecap="round" />
+  
+  <!-- Solar Panel Grid representation -->
+  <polygon points="250,420 300,280 500,280 550,420" fill="none" stroke="url(#accentGrad)" stroke-width="6" />
+  <!-- Panel Segments -->
+  <line x1="400" y1="280" x2="400" y2="420" stroke="url(#accentGrad)" stroke-width="3" />
+  <line x1="325" y1="280" x2="280" y2="420" stroke="url(#accentGrad)" stroke-width="3" />
+  <line x1="475" y1="280" x2="520" y2="420" stroke="url(#accentGrad)" stroke-width="3" />
+  
+  <line x1="285" y1="325" x2="515" y2="325" stroke="url(#accentGrad)" stroke-width="3" />
+  <line x1="265" y1="375" x2="535" y2="375" stroke="url(#accentGrad)" stroke-width="3" />
+  
+  <text x="400" y="520" font-family="'Outfit', sans-serif" font-weight="900" font-size="28" fill="#ffffff" text-anchor="middle">
+    SOLAR PANEL SYSTEMS
+  </text>
+  <text x="400" y="550" font-family="'Inter', sans-serif" font-weight="500" font-size="14" fill="#ffd700" text-anchor="middle" letter-spacing="4">
+    eco-friendly renewable setups
+  </text>
+</svg>

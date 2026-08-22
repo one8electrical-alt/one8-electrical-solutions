@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="indGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0066ff" />
+      <stop offset="100%" stop-color="#00c6ff" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#indGrad)"/>
+  
+  <!-- Technical Grid -->
+  <g stroke="#ffffff" stroke-opacity="0.05" stroke-width="1">
+    <line x1="100" y1="0" x2="100" y2="600" />
+    <line x1="200" y1="0" x2="200" y2="600" />
+    <line x1="300" y1="0" x2="300" y2="600" />
+    <line x1="400" y1="0" x2="400" y2="600" />
+    <line x1="500" y1="0" x2="500" y2="600" />
+    <line x1="600" y1="0" x2="600" y2="600" />
+    <line x1="700" y1="0" x2="700" y2="600" />
+    
+    <line x1="0" y1="100" x2="800" y2="100" />
+    <line x1="0" y1="200" x2="800" y2="200" />
+    <line x1="0" y1="300" x2="800" y2="300" />
+    <line x1="0" y1="400" x2="800" y2="400" />
+    <line x1="0" y1="500" x2="800" y2="500" />
+  </g>
+  
+  <!-- Schematic shapes -->
+  <rect x="250" y="150" width="300" height="300" rx="12" fill="none" stroke="url(#accentGrad)" stroke-width="6" />
+  <circle cx="400" cy="300" r="80" fill="none" stroke="#ffd700" stroke-width="4" stroke-dasharray="10,5" />
+  
+  <!-- Heavy Industry Machine Silhouette inside -->
+  <path d="M360,330 L440,330 L420,270 L380,270 Z" fill="#ffd700" opacity="0.8" />
+  <rect x="390" y="230" width="20" height="40" fill="url(#accentGrad)" />
+  
+  <!-- Text Label -->
+  <text x="400" y="520" font-family="'Outfit', sans-serif" font-weight="900" font-size="28" fill="#ffffff" text-anchor="middle">
+    INDUSTRIAL INSTALLATION
+  </text>
+  <text x="400" y="550" font-family="'Inter', sans-serif" font-weight="500" font-size="14" fill="#00c6ff" text-anchor="middle" letter-spacing="4">
+    heavy duty wiring &amp; cabling
+  </text>
+</svg>

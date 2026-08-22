@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a192f" />
+      <stop offset="100%" stop-color="#0066ff" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd700" />
+      <stop offset="100%" stop-color="#ff9900" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Circle with Gradients -->
+  <circle cx="250" cy="250" r="230" fill="url(#avatarGrad)" stroke="#00c6ff" stroke-width="4" />
+  
+  <!-- Engineering Grid overlays in avatar -->
+  <line x1="250" y1="20" x2="250" y2="480" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1" stroke-dasharray="5,5" />
+  <line x1="20" y1="250" x2="480" y2="250" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1" stroke-dasharray="5,5" />
+  
+  <!-- Engineer Stylized Icon -->
+  <!-- Helmet -->
+  <path d="M190,190 C190,130 310,130 310,190 L330,190 C340,190 340,205 330,205 L170,205 C160,205 160,190 170,190 Z" fill="url(#goldGrad)" />
+  <!-- Helmet Crest -->
+  <path d="M240,135 L260,135 L260,185 L240,185 Z" fill="#ffd700" />
+  
+  <!-- Suit / Body -->
+  <path d="M150,420 C150,320 200,280 250,280 C300,280 350,320 350,420 Z" fill="#ffffff" fill-opacity="0.9" />
+  <!-- Tie / Collar -->
+  <path d="M230,280 L270,280 L250,330 Z" fill="#0066ff" />
+  <path d="M250,330 L260,400 L240,400 Z" fill="#0052cc" />
+
+  <!-- Owner Label Banner -->
+  <rect x="100" y="410" width="300" height="50" rx="8" fill="#ffd700" stroke="#0a192f" stroke-width="2" />
+  <text x="250" y="442" font-family="'Outfit', sans-serif" font-weight="900" font-size="20" fill="#0a192f" text-anchor="middle" letter-spacing="1">
+    HANUMAN YADAV
+  </text>
+  
+  <!-- Certification Badge -->
+  <circle cx="390" cy="120" r="45" fill="#0a192f" stroke="#ffd700" stroke-width="3" />
+  <path d="M390,95 L378,118 L390,135 L402,118 Z" fill="#ffd700" />
+  <text x="390" y="152" font-family="'Inter', sans-serif" font-weight="700" font-size="10" fill="#ffffff" text-anchor="middle">CERTIFIED</text>
+</svg>
