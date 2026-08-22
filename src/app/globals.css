@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  --color-electric-blue: #0052FF;
+  --color-electric-yellow: #E2FF00;
+  --color-brand-dark: #070B19;
+  --color-brand-dark-light: #0D1527;
+  --color-brand-card: #0F1626;
+  --color-brand-card-light: #FFFFFF;
+  --color-brand-border: rgba(255, 255, 255, 0.08);
+  --color-brand-border-light: rgba(0, 0, 0, 0.08);
+}
+
+:root {
+  --background: #F4F7FF;
+  --foreground: #0A0F1D;
+}
+
+.dark {
+  --background: #070B19;
+  --foreground: #F4F7FF;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Glassmorphism utilities */
+.glass-panel {
+  background: rgba(15, 22, 38, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.light .glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Glowing effects */
+.glow-blue {
+  box-shadow: 0 0 40px -10px rgba(0, 82, 255, 0.3);
+}
+
+.glow-yellow {
+  box-shadow: 0 0 40px -10px rgba(226, 255, 0, 0.2);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0052FF;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #003cc4;
+}
