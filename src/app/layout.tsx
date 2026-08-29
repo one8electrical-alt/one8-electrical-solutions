@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "One8 Electrical Solutions | Power, Solar & Automation Engineering",
     description: "Premium electrical contracting, solar panels, and SCADA automation across Rajasthan. Led by Er. Hanuman Yadav.",
-    url: "https://one8electrical.com",
+    url: "https://one8electricalsolutions.com",
     siteName: "One8 Electrical Solutions",
     type: "website",
   },
@@ -41,7 +41,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "One8 Electrical Solutions",
-  "image": "https://one8electrical.com/images/hero-bg.jpg",
+  "image": "https://one8electricalsolutions.com/images/hero-bg.jpg",
   "telephone": "+919828970722",
   "email": "one8electrical@gmail.com",
   "address": {
@@ -52,7 +52,7 @@ const jsonLd = {
     "postalCode": "304021",
     "addressCountry": "IN"
   },
-  "url": "https://one8electrical.com",
+  "url": "https://one8electricalsolutions.com",
   "owner": {
     "@type": "Person",
     "name": "Er. Hanuman Yadav",
