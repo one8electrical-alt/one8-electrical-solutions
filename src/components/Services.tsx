@@ -1,7 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
+import * as LucideIcons from "lucide-react";
 
 const getSlug = (title: string) => {
   return title
@@ -9,26 +11,14 @@ const getSlug = (title: string) => {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 };
-import {
-  Home,
-  Factory,
-  Wrench,
-  Cpu,
-  Zap,
-  Wind,
-  Thermometer,
-  Sun,
-  Gauge,
-  Shield,
-  Droplet,
-  FileCheck,
-  Flame,
-  Binary,
-  Layers,
-  Network,
-  Lightbulb,
-  FileSpreadsheet,
-} from "lucide-react";
+
+const getIcon = (name: string) => {
+  const IconComponent = (LucideIcons as any)[name];
+  if (IconComponent) {
+    return <IconComponent className="h-6 w-6" />;
+  }
+  return <LucideIcons.Zap className="h-6 w-6" />;
+};
 
 type Service = {
   title: string;
@@ -37,121 +27,149 @@ type Service = {
   icon: React.ReactNode;
 };
 
+const STATIC_SERVICES: Service[] = [
+  {
+    title: "Domestic Wiring",
+    category: "power",
+    desc: "Standard internal wiring installations and distributions for residential blocks, villas, and apartments.",
+    icon: <LucideIcons.Home className="h-6 w-6" />,
+  },
+  {
+    title: "Industrial Wiring",
+    category: "power",
+    desc: "Heavy-duty conduit layout, cable trunking, and power routing designed for industrial machinery and processing units.",
+    icon: <LucideIcons.Factory className="h-6 w-6" />,
+  },
+  {
+    title: "Motor Installation & Repair",
+    category: "power",
+    desc: "Setup, alignment, and servicing for single and three-phase industrial motors and pumps.",
+    icon: <LucideIcons.Wrench className="h-6 w-6" />,
+  },
+  {
+    title: "Panel Board Design & Fabrication",
+    category: "control",
+    desc: "Custom control panels, switchgear boards, and distribution boards designed for systematic power allocation.",
+    icon: <LucideIcons.Cpu className="h-6 w-6" />,
+  },
+  {
+    title: "DG Set Installation & Maintenance",
+    category: "power",
+    desc: "Complete diesel generator installation, synchronization setup, and periodic routine maintenance services.",
+    icon: <LucideIcons.Zap className="h-6 w-6" />,
+  },
+  {
+    title: "Compressor Installation",
+    category: "power",
+    desc: "Electrical power synchronization, cabling, and starter panel configuration for industrial air compressor units.",
+    icon: <LucideIcons.Wind className="h-6 w-6" />,
+  },
+  {
+    title: "HVAC System Wiring",
+    category: "power",
+    desc: "Control loops, power wiring, and switchgear setup for centralized chiller plants and ventilation units.",
+    icon: <LucideIcons.Thermometer className="h-6 w-6" />,
+  },
+  {
+    title: "Solar Panel Installation",
+    category: "green",
+    desc: "Rooftop solar design, solar PV array structure layout, and grid connection setup.",
+    icon: <LucideIcons.Sun className="h-6 w-6" />,
+  },
+  {
+    title: "Power Factor Improvement",
+    category: "green",
+    desc: "Fabrication of Automatic Power Factor Correction (APFC) panels to reduce reactive power losses.",
+    icon: <LucideIcons.Gauge className="h-6 w-6" />,
+  },
+  {
+    title: "Earthing & Lightning Protection",
+    category: "green",
+    desc: "Design and installation of chemical earthing grids and lightning protection grids for safety.",
+    icon: <LucideIcons.Shield className="h-6 w-6" />,
+  },
+  {
+    title: "ETP & STP Panel Installation",
+    category: "control",
+    desc: "Weatherproof panel assemblies and pump starters for Effluent and Sewage Treatment Plants.",
+    icon: <LucideIcons.Droplet className="h-6 w-6" />,
+  },
+  {
+    title: "Energy Audit Service",
+    category: "green",
+    desc: "Routine assessments of power distribution efficiency, load balancing, and energy saving recommendations.",
+    icon: <LucideIcons.FileSpreadsheet className="h-6 w-6" />,
+  },
+  {
+    title: "Fire Alarm System Wiring",
+    category: "green",
+    desc: "Sensor wiring, control loop design, alarm panels, and safety integration for commercial networks.",
+    icon: <LucideIcons.Flame className="h-6 w-6" />,
+  },
+  {
+    title: "Cable Laying & Termination",
+    category: "power",
+    desc: "Underground armored cabling, cable tray routing, and termination of HT/LT power cables.",
+    icon: <LucideIcons.Layers className="h-6 w-6" />,
+  },
+  {
+    title: "Transformer Installation & Service",
+    category: "power",
+    desc: "Substation commissioning assistance, transformer placement, oil filtration, and regular testing services.",
+    icon: <LucideIcons.Network className="h-6 w-6" />,
+  },
+  {
+    title: "Automation Setup (PLC/SCADA)",
+    category: "control",
+    desc: "Programmable Logic Controller setups and SCADA dashboard interfaces for industrial process monitoring.",
+    icon: <LucideIcons.Binary className="h-6 w-6" />,
+  },
+  {
+    title: "Street Lighting Solution",
+    category: "power",
+    desc: "Design and installation of smart lighting grids and automated timers for yards, roads, and compounds.",
+    icon: <LucideIcons.Lightbulb className="h-6 w-6" />,
+  },
+  {
+    title: "AMC (Annual Maintenance Contract)",
+    category: "control",
+    desc: "Scheduled periodic checks, contactor cleaning, load tests, and priority support for industrial systems.",
+    icon: <LucideIcons.FileCheck className="h-6 w-6" />,
+  },
+];
+
 export default function Services() {
   const [activeCategory, setActiveCategory] = useState<"all" | "power" | "green" | "control">("all");
+  const [servicesList, setServicesList] = useState<Service[]>(STATIC_SERVICES);
 
-  const services: Service[] = [
-    {
-      title: "Domestic Wiring",
-      category: "power",
-      desc: "Standard internal wiring installations and distributions for residential blocks, villas, and apartments.",
-      icon: <Home className="h-6 w-6" />,
-    },
-    {
-      title: "Industrial Wiring",
-      category: "power",
-      desc: "Heavy-duty conduit layout, cable trunking, and power routing designed for industrial machinery and processing units.",
-      icon: <Factory className="h-6 w-6" />,
-    },
-    {
-      title: "Motor Installation & Repair",
-      category: "power",
-      desc: "Setup, alignment, and servicing for single and three-phase industrial motors and pumps.",
-      icon: <Wrench className="h-6 w-6" />,
-    },
-    {
-      title: "Panel Board Design & Fabrication",
-      category: "control",
-      desc: "Custom control panels, switchgear boards, and distribution boards designed for systematic power allocation.",
-      icon: <Cpu className="h-6 w-6" />,
-    },
-    {
-      title: "DG Set Installation & Maintenance",
-      category: "power",
-      desc: "Complete diesel generator installation, synchronization setup, and periodic routine maintenance services.",
-      icon: <Zap className="h-6 w-6" />,
-    },
-    {
-      title: "Compressor Installation",
-      category: "power",
-      desc: "Electrical power synchronization, cabling, and starter panel configuration for industrial air compressor units.",
-      icon: <Wind className="h-6 w-6" />,
-    },
-    {
-      title: "HVAC System Wiring",
-      category: "power",
-      desc: "Control loops, power wiring, and switchgear setup for centralized chiller plants and ventilation units.",
-      icon: <Thermometer className="h-6 w-6" />,
-    },
-    {
-      title: "Solar Panel Installation",
-      category: "green",
-      desc: "Rooftop solar design, solar PV array structure layout, and grid connection setup.",
-      icon: <Sun className="h-6 w-6" />,
-    },
-    {
-      title: "Power Factor Improvement",
-      category: "green",
-      desc: "Fabrication of Automatic Power Factor Correction (APFC) panels to reduce reactive power losses.",
-      icon: <Gauge className="h-6 w-6" />,
-    },
-    {
-      title: "Earthing & Lightning Protection",
-      category: "green",
-      desc: "Design and installation of chemical earthing grids and lightning protection grids for safety.",
-      icon: <Shield className="h-6 w-6" />,
-    },
-    {
-      title: "ETP & STP Panel Installation",
-      category: "control",
-      desc: "Weatherproof panel assemblies and pump starters for Effluent and Sewage Treatment Plants.",
-      icon: <Droplet className="h-6 w-6" />,
-    },
-    {
-      title: "Energy Audit Service",
-      category: "green",
-      desc: "Routine assessments of power distribution efficiency, load balancing, and energy saving recommendations.",
-      icon: <FileSpreadsheet className="h-6 w-6" />,
-    },
-    {
-      title: "Fire Alarm System Wiring",
-      category: "green",
-      desc: "Sensor wiring, control loop design, alarm panels, and safety integration for commercial networks.",
-      icon: <Flame className="h-6 w-6" />,
-    },
-    {
-      title: "Cable Laying & Termination",
-      category: "power",
-      desc: "Underground armored cabling, cable tray routing, and termination of HT/LT power cables.",
-      icon: <Layers className="h-6 w-6" />,
-    },
-    {
-      title: "Transformer Installation & Service",
-      category: "power",
-      desc: "Substation commissioning assistance, transformer placement, oil filtration, and regular testing services.",
-      icon: <Network className="h-6 w-6" />,
-    },
-    {
-      title: "Automation Setup (PLC/SCADA)",
-      category: "control",
-      desc: "Programmable Logic Controller setups and SCADA dashboard interfaces for industrial process monitoring.",
-      icon: <Binary className="h-6 w-6" />,
-    },
-    {
-      title: "Street Lighting Solution",
-      category: "power",
-      desc: "Design and installation of smart lighting grids and automated timers for yards, roads, and compounds.",
-      icon: <Lightbulb className="h-6 w-6" />,
-    },
-    {
-      title: "AMC (Annual Maintenance Contract)",
-      category: "control",
-      desc: "Scheduled periodic checks, contactor cleaning, load tests, and priority support for industrial systems.",
-      icon: <FileCheck className="h-6 w-6" />,
-    },
-  ];
+  useEffect(() => {
+    const fetchLiveServices = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("services")
+          .select("*")
+          .eq("active", true)
+          .order("created_at", { ascending: true });
 
-  const filteredServices = services.filter(
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          const liveServices: Service[] = data.map((item) => ({
+            title: item.title,
+            category: item.category as any,
+            desc: item.desc,
+            icon: getIcon(item.icon_name),
+          }));
+          setServicesList(liveServices);
+        }
+      } catch (e) {
+        // Fall back to static config
+      }
+    };
+    fetchLiveServices();
+  }, []);
+
+  const filteredServices = servicesList.filter(
     (s) => activeCategory === "all" || s.category === activeCategory
   );
 

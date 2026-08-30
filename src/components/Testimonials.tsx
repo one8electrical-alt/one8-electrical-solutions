@@ -1,6 +1,7 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Star, Quote } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 type Testimonial = {
   name: string;
@@ -10,30 +11,60 @@ type Testimonial = {
   text: string;
 };
 
+const STATIC_REVIEWS: Testimonial[] = [
+  {
+    name: "Rajesh Sharma",
+    role: "Operations Manager",
+    company: "Apex Textiles, Newai",
+    rating: 5,
+    text: "One8 Electrical Solutions completely overhauled our sewage treatment plant panels. Er. Hanuman Yadav and his team designed a custom PLC solution that has run flawlessly for months. Their understanding of heavy industrial automation is state-of-the-art.",
+  },
+  {
+    name: "Amit Choudhary",
+    role: "Project Developer",
+    company: "Choudhary Heights",
+    rating: 5,
+    text: "We contracted One8 for the complete domestic wiring and subpanel installations for our luxury residential apartment block. Excellent coordination, zero-compromise on cable grades, and perfect safety earthing pits. Highly recommended for commercial builders.",
+  },
+  {
+    name: "Sunil Yadav",
+    role: "Proprietor",
+    company: "Greenfield Farms",
+    rating: 5,
+    text: "Hanuman Yadav and his team set up a 25kW solar panel net-metering grid at our facility. The system was designed, structured, and synced with the main line within record time. Our utility bills have plummeted. Honest pricing and certified service.",
+  },
+];
+
 export default function Testimonials() {
-  const reviews: Testimonial[] = [
-    {
-      name: "Rajesh Sharma",
-      role: "Operations Manager",
-      company: "Apex Textiles, Newai",
-      rating: 5,
-      text: "One8 Electrical Solutions completely overhauled our sewage treatment plant panels. Er. Hanuman Yadav and his team designed a custom PLC solution that has run flawlessly for months. Their understanding of heavy industrial automation is state-of-the-art.",
-    },
-    {
-      name: "Amit Choudhary",
-      role: "Project Developer",
-      company: "Choudhary Heights",
-      rating: 5,
-      text: "We contracted One8 for the complete domestic wiring and subpanel installations for our luxury residential apartment block. Excellent coordination, zero-compromise on cable grades, and perfect safety earthing pits. Highly recommended for commercial builders.",
-    },
-    {
-      name: "Sunil Yadav",
-      role: "Proprietor",
-      company: "Greenfield Farms",
-      rating: 5,
-      text: "Hanuman Yadav and his team set up a 25kW solar panel net-metering grid at our facility. The system was designed, structured, and synced with the main line within record time. Our utility bills have plummeted. Honest pricing and certified service.",
-    },
-  ];
+  const [reviewsList, setReviewsList] = useState<Testimonial[]>(STATIC_REVIEWS);
+
+  useEffect(() => {
+    const fetchLiveTestimonials = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("testimonials")
+          .select("*")
+          .eq("active", true)
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          const liveReviews: Testimonial[] = data.map((item) => ({
+            name: item.name,
+            role: item.role,
+            company: item.company,
+            rating: item.rating,
+            text: item.text,
+          }));
+          setReviewsList(liveReviews);
+        }
+      } catch (e) {
+        // Fall back to static
+      }
+    };
+    fetchLiveTestimonials();
+  }, []);
 
   return (
     <section id="testimonials" className="py-24 bg-slate-50 dark:bg-brand-dark/50 transition-colors duration-300">
@@ -55,7 +86,7 @@ export default function Testimonials() {
 
         {/* Testimonials Grid */}
         <div className="grid md:grid-cols-3 gap-8">
-          {reviews.map((rev, idx) => (
+          {reviewsList.map((rev, idx) => (
             <div
               key={idx}
               className="relative p-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-brand-card hover:bg-white dark:hover:bg-brand-card-light/5 hover:border-electric-blue/40 hover:-translate-y-1.5 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
@@ -74,7 +105,7 @@ export default function Testimonials() {
                 </div>
 
                 {/* Review Text */}
-                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-light italic">
+                <p className="text-sm text-slate-650 dark:text-slate-300 leading-relaxed font-light italic">
                   &ldquo;{rev.text}&rdquo;
                 </p>
               </div>
@@ -89,7 +120,7 @@ export default function Testimonials() {
                     {rev.name}
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    {rev.role}, <span className="font-semibold text-slate-600 dark:text-slate-350">{rev.company}</span>
+                    {rev.role}, <span className="font-semibold text-slate-650 dark:text-slate-350">{rev.company}</span>
                   </p>
                 </div>
               </div>

@@ -23,7 +23,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
       {/* Background Image with Dark Overlay */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -31,14 +31,14 @@ export default function Hero() {
           alt="One8 Electrical Infrastructure & Engineering"
           fill
           priority
-          className="object-cover object-center scale-105 animate-subtle-zoom"
+          className="object-cover object-[88%_center] md:object-center scale-105 animate-subtle-zoom"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/95 via-brand-dark/85 to-transparent dark:from-brand-dark/95 dark:via-brand-dark/85 dark:to-transparent" />
+        <div className="absolute inset-0 bg-brand-dark/80 dark:bg-brand-dark/80 md:bg-gradient-to-r md:from-brand-dark/95 md:via-brand-dark/85 md:to-transparent md:dark:from-brand-dark/95 md:dark:via-brand-dark/85 md:dark:to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-brand-dark/40" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20 lg:py-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-16 sm:py-20 lg:py-32">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           {/* Hero Content */}
           <div className="lg:col-span-7 space-y-8 text-left">

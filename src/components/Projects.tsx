@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { supabase } from "@/lib/supabase";
 
 type Project = {
   title: string;
@@ -10,8 +11,80 @@ type Project = {
   img: string;
 };
 
+const STATIC_PROJECTS: Project[] = [
+  {
+    title: "Industrial Plant Power Installation",
+    category: "industrial",
+    location: "Newai, Rajasthan",
+    img: "/images/project-industrial.jpg",
+  },
+  {
+    title: "Distribution & APFC Panel Fabrication",
+    category: "panels",
+    location: "Tonk, Rajasthan",
+    img: "/images/project-panel.jpg",
+  },
+  {
+    title: "100kW Rooftop Solar Installation",
+    category: "solar",
+    location: "Newai, Rajasthan",
+    img: "/images/project-solar.jpg",
+  },
+  {
+    title: "ETP Automation Panel Setup",
+    category: "automation",
+    location: "Textile Plant, Rajasthan",
+    img: "/images/project-automation.jpg",
+  },
+  {
+    title: "Commercial HVAC Control Wiring",
+    category: "hvac",
+    location: "Jaipur Highway Complex",
+    img: "/images/project-commercial.jpg",
+  },
+  {
+    title: "DG Set Setup & Substation Work",
+    category: "dg-transformer",
+    location: "Gunsi, Rajasthan",
+    img: "/images/project-panel.jpg",
+  },
+  {
+    title: "Industrial Electrical Maintenance Check",
+    category: "maintenance",
+    location: "Tonk Industrial Area",
+    img: "/images/project-industrial.jpg",
+  },
+];
+
 export default function Projects() {
   const [filter, setFilter] = useState<string>("all");
+  const [projectsList, setProjectsList] = useState<Project[]>(STATIC_PROJECTS);
+
+  useEffect(() => {
+    const fetchLiveProjects = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("projects")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          const liveProjects: Project[] = data.map((item) => ({
+            title: item.title,
+            category: item.category as any,
+            location: item.location,
+            img: item.img_url,
+          }));
+          setProjectsList(liveProjects);
+        }
+      } catch (e) {
+        // Fall back to static config
+      }
+    };
+    fetchLiveProjects();
+  }, []);
 
   const categories = [
     { id: "all", label: "All Projects" },
@@ -22,51 +95,6 @@ export default function Projects() {
     { id: "hvac", label: "HVAC Electrical" },
     { id: "dg-transformer", label: "DG & Transformer" },
     { id: "maintenance", label: "Electrical Maintenance" },
-  ];
-
-  const projectsList: Project[] = [
-    {
-      title: "Industrial Plant Power Installation",
-      category: "industrial",
-      location: "Newai, Rajasthan",
-      img: "/images/project-industrial.jpg",
-    },
-    {
-      title: "Distribution & APFC Panel Fabrication",
-      category: "panels",
-      location: "Tonk, Rajasthan",
-      img: "/images/project-panel.jpg",
-    },
-    {
-      title: "100kW Rooftop Solar Installation",
-      category: "solar",
-      location: "Newai, Rajasthan",
-      img: "/images/project-solar.jpg",
-    },
-    {
-      title: "ETP Automation Panel Setup",
-      category: "automation",
-      location: "Textile Plant, Rajasthan",
-      img: "/images/project-automation.jpg",
-    },
-    {
-      title: "Commercial HVAC Control Wiring",
-      category: "hvac",
-      location: "Jaipur Highway Complex",
-      img: "/images/project-commercial.jpg",
-    },
-    {
-      title: "DG Set Setup & Substation Work",
-      category: "dg-transformer",
-      location: "Gunsi, Rajasthan",
-      img: "/images/project-panel.jpg",
-    },
-    {
-      title: "Industrial Electrical Maintenance Check",
-      category: "maintenance",
-      location: "Tonk Industrial Area",
-      img: "/images/project-industrial.jpg",
-    },
   ];
 
   const filteredProjects =
@@ -146,7 +174,6 @@ export default function Projects() {
                     {proj.title}
                   </h3>
                   <div className="flex items-center text-xs text-slate-300 font-light">
-                    {/* Tiny Map Marker pin icon */}
                     <svg
                       className="h-3.5 w-3.5 mr-1 text-electric-blue"
                       fill="none"

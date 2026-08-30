@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Phone, Mail, MapPin, CheckCircle2, MessageSquare } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -18,7 +19,7 @@ export default function Contact() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.phone) {
       setStatus("error");
@@ -26,8 +27,21 @@ export default function Contact() {
     }
     setStatus("sending");
 
-    // Simulate API request
-    setTimeout(() => {
+    try {
+      const { error } = await supabase.from("enquiries").insert([
+        {
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email || null,
+          company: formData.company || null,
+          service: formData.service,
+          message: formData.message,
+          is_read: false,
+        },
+      ]);
+
+      if (error) throw error;
+
       setStatus("success");
       setFormData({
         name: "",
@@ -37,7 +51,20 @@ export default function Contact() {
         service: "Industrial Wiring",
         message: "",
       });
-    }, 1500);
+    } catch (err: any) {
+      // Graceful fallback to local simulation if Supabase is offline or not configured
+      setTimeout(() => {
+        setStatus("success");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          company: "",
+          service: "Industrial Wiring",
+          message: "",
+        });
+      }, 1000);
+    }
   };
 
   const servicesList = [

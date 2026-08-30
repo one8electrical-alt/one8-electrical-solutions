@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { createClient } from "@/lib/supabaseServer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,79 +14,107 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "One8 Electrical Solutions | Electrical, Solar & Automation Services",
-  description: "One8 Electrical Solutions provides industrial electrical work, solar installation, automation, and panel fabrication services across Rajasthan. Contact us.",
-  keywords: [
-    "One8 Electrical Solutions",
-    "Hanuman Yadav",
-    "Electrical Engineering Tonk",
-    "Industrial Automation Rajasthan",
-    "Rooftop Solar Installation Newai",
-    "PLC SCADA programming India",
-    "Electrical Contractor Tonk",
-    "Substation Transformer commissioning",
-    "Earthing and Lightning Protection Rajasthan",
-  ],
-  authors: [{ name: "Er. Hanuman Yadav" }],
-  alternates: {
-    canonical: "https://one8electricalsolutions.com",
-  },
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon.svg", type: "image/svg+xml" }
-    ],
-    apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }
-    ],
-  },
-  openGraph: {
-    title: "One8 Electrical Solutions | Electrical, Solar & Automation Services",
-    description: "One8 Electrical Solutions provides industrial electrical work, solar installation, automation, and panel fabrication services across Rajasthan. Contact us.",
-    url: "https://one8electricalsolutions.com",
-    siteName: "One8 Electrical Solutions",
-    type: "website",
-    images: [
-      {
-        url: "https://one8electricalsolutions.com/images/hero-bg.jpg",
-        width: 1200,
-        height: 630,
-        alt: "One8 Electrical Solutions",
-      },
-    ],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  let title = "One8 Electrical Solutions | Professional Power, Solar & Automation Engineering";
+  let description = "One8 Electrical Solutions provides safety-first electrical engineering, rooftop solar grids, PLC/SCADA industrial automation, custom control panels, and electrical wiring contracts across Rajasthan. Led by Er. Hanuman Yadav.";
+  let ogImage = "https://one8electricalsolutions.com/images/hero-bg.jpg";
+  let favicon = "/favicon.ico";
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "One8 Electrical Solutions",
-  "image": "https://one8electricalsolutions.com/images/hero-bg.jpg",
-  "telephone": "+919828970722",
-  "email": "one8electrical@gmail.com",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Raholi Road, Gunsi, Newai",
-    "addressLocality": "Tonk",
-    "addressRegion": "Rajasthan",
-    "postalCode": "304021",
-    "addressCountry": "IN"
-  },
-  "url": "https://one8electricalsolutions.com",
-  "owner": {
-    "@type": "Person",
-    "name": "Er. Hanuman Yadav",
-    "jobTitle": "Electrical Engineer & Founder"
-  },
-  "priceRange": "$$"
-};
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase.from("settings").select("*");
+    if (data && data.length > 0) {
+      data.forEach((row) => {
+        if (row.key === "seo_title" && row.value) title = row.value;
+        if (row.key === "seo_description" && row.value) description = row.value;
+        if (row.key === "og_image" && row.value) ogImage = row.value;
+        if (row.key === "favicon" && row.value) favicon = row.value;
+      });
+    }
+  } catch (e) {
+    // Fail silent on missing connection or DB config
+  }
 
-export default function RootLayout({
+  return {
+    title,
+    description,
+    keywords: [
+      "One8 Electrical Solutions",
+      "Hanuman Yadav",
+      "Electrical Engineering Tonk",
+      "Industrial Automation Rajasthan",
+      "Rooftop Solar Installation Newai",
+      "PLC SCADA programming India",
+      "Electrical Contractor Tonk",
+      "Substation Transformer commissioning",
+      "Earthing and Lightning Protection Rajasthan",
+    ],
+    authors: [{ name: "Er. Hanuman Yadav" }],
+    icons: {
+      icon: favicon,
+    },
+    openGraph: {
+      title,
+      description,
+      url: "https://one8electricalsolutions.com",
+      siteName: "One8 Electrical Solutions",
+      images: [{ url: ogImage }],
+      type: "website",
+    },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let ownerName = "Er. Hanuman Yadav";
+  let companyAddress = "Raholi Road, Gunsi, Newai, Tonk, Rajasthan";
+  let companyPhone = "+91 9828970722";
+  let companyEmail = "one8electrical@gmail.com";
+  let ogImage = "https://one8electricalsolutions.com/images/hero-bg.jpg";
+
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase.from("settings").select("*");
+    if (data && data.length > 0) {
+      data.forEach((row) => {
+        if (row.key === "owner_name" && row.value) ownerName = row.value;
+        if (row.key === "company_address" && row.value) companyAddress = row.value;
+        if (row.key === "company_phone" && row.value) companyPhone = row.value;
+        if (row.key === "company_email" && row.value) companyEmail = row.value;
+        if (row.key === "og_image" && row.value) ogImage = row.value;
+      });
+    }
+  } catch (e) {
+    // Fail silent
+  }
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "One8 Electrical Solutions",
+    "image": ogImage,
+    "telephone": companyPhone,
+    "email": companyEmail,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": companyAddress,
+      "addressLocality": "Tonk",
+      "addressRegion": "Rajasthan",
+      "postalCode": "304021",
+      "addressCountry": "IN",
+    },
+    "url": "https://one8electricalsolutions.com",
+    "owner": {
+      "@type": "Person",
+      "name": ownerName,
+      "jobTitle": "Electrical Engineer & Founder",
+    },
+    "priceRange": "$$",
+  };
+
   return (
     <html
       lang="en"
