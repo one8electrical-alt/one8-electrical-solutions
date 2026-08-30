@@ -60,7 +60,7 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-brand-dark/80 dark:bg-brand-dark/80 backdrop-blur-md border-b border-brand-border shadow-lg py-4"
+          ? "bg-slate-950/90 backdrop-blur-md border-b border-brand-border shadow-lg py-4"
           : "bg-transparent py-6"
       }`}
     >
@@ -76,7 +76,7 @@ export default function Navbar() {
               <Zap className="h-6 w-6 text-electric-yellow fill-electric-yellow animate-pulse" />
             </div>
             <div className="flex flex-col text-left">
-              <span className="text-xl font-bold tracking-wider text-slate-900 dark:text-white group-hover:text-electric-blue transition-colors">
+              <span className="text-xl font-bold tracking-wider text-white group-hover:text-electric-blue transition-colors">
                 ONE8 ELECTRICAL
               </span>
               <span className="text-[10px] font-semibold text-electric-blue tracking-widest uppercase">
@@ -92,7 +92,7 @@ export default function Navbar() {
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
-                className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-electric-blue dark:hover:text-electric-yellow transition-colors relative py-1 group"
+                className="text-sm font-bold text-white hover:text-electric-blue dark:hover:text-electric-yellow transition-colors relative py-1 group"
               >
                 {link.name}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-electric-blue dark:bg-electric-yellow transition-all duration-300 group-hover:w-full" />
@@ -106,7 +106,7 @@ export default function Navbar() {
             {mounted && (
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                className="p-2 rounded-full border border-slate-700 text-white hover:bg-slate-800 transition-colors"
                 aria-label="Toggle Theme"
               >
                 {theme === "dark" ? (
@@ -120,9 +120,9 @@ export default function Navbar() {
             {/* Quick Call */}
             <a
               href="tel:+919828970722"
-              className="flex items-center space-x-1 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-electric-blue transition-colors"
+              className="flex items-center space-x-1 text-sm font-bold text-white hover:text-electric-blue transition-colors"
             >
-              <Phone className="h-4 w-4" />
+              <Phone className="h-4 w-4 text-white" />
               <span>+91 9828970722</span>
             </a>
 
@@ -142,7 +142,7 @@ export default function Navbar() {
             {mounted && (
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300"
+                className="p-2 rounded-full border border-slate-350 dark:border-slate-700 text-white"
                 aria-label="Toggle Theme"
               >
                 {theme === "dark" ? (
@@ -156,7 +156,7 @@ export default function Navbar() {
             {/* Hamburger Toggle */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none"
+              className="p-2 rounded-lg text-white focus:outline-none"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -172,7 +172,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-white/95 dark:bg-brand-dark/95 border-b border-brand-border overflow-hidden"
+            className="lg:hidden bg-slate-950/95 border-b border-brand-border overflow-hidden"
           >
             <div className="px-4 pt-2 pb-6 space-y-3">
               {navLinks.map((link) => (
@@ -180,17 +180,17 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
-                  className="block px-3 py-2 rounded-md text-base font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-electric-blue dark:hover:text-electric-yellow"
+                  className="block px-3 py-2 rounded-md text-base font-bold text-white hover:bg-slate-800 hover:text-electric-blue"
                 >
                   {link.name}
                 </Link>
               ))}
-              <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col space-y-3 px-3">
+              <div className="pt-4 border-t border-slate-800 flex flex-col space-y-3 px-3">
                 <a
                   href="tel:+919828970722"
-                  className="flex items-center space-x-2 text-base font-bold text-slate-800 dark:text-slate-200"
+                  className="flex items-center space-x-2 text-base font-bold text-white hover:text-electric-blue transition-colors"
                 >
-                  <Phone className="h-5 w-5 text-electric-blue" />
+                  <Phone className="h-5 w-5 text-white" />
                   <span>+91 9828970722</span>
                 </a>
                 <Link
