@@ -95,18 +95,39 @@ export default function Contact() {
 
               {/* Direct Touchpoints */}
               <div className="space-y-4">
-                <a
-                  href="tel:+919828970722"
-                  className="flex items-start space-x-4 group text-slate-700 dark:text-slate-300 hover:text-electric-blue dark:hover:text-electric-yellow transition-colors"
-                >
-                  <div className="bg-electric-blue/10 p-3 rounded-xl text-electric-blue group-hover:scale-110 transition-transform">
+                {/* Er. Hanuman Yadav */}
+                <div className="flex items-start space-x-4 text-slate-700 dark:text-slate-300">
+                  <div className="bg-electric-blue/10 p-3 rounded-xl text-electric-blue shrink-0">
                     <Phone className="h-5 w-5" />
                   </div>
-                  <div>
-                    <span className="text-xs text-slate-400 dark:text-slate-500 block">Phone Support</span>
-                    <span className="text-base font-bold">+91 9828970722</span>
+                  <div className="flex-1 min-w-0">
+                    <span className="text-xs text-slate-400 dark:text-slate-500 block">Technical Support</span>
+                    <a
+                      href="tel:+919828970722"
+                      className="text-base font-bold hover:text-electric-blue dark:hover:text-electric-yellow transition-colors block"
+                    >
+                      +91 9828970722
+                    </a>
+                    <span className="text-xs text-slate-400 dark:text-slate-500 font-light block">Er. Hanuman Yadav (Electrical Engineer)</span>
                   </div>
-                </a>
+                </div>
+
+                {/* Kishan Yadav */}
+                <div className="flex items-start space-x-4 text-slate-700 dark:text-slate-300">
+                  <div className="bg-electric-blue/10 p-3 rounded-xl text-electric-blue shrink-0">
+                    <Phone className="h-5 w-5" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <span className="text-xs text-slate-400 dark:text-slate-500 block">Operations Support</span>
+                    <a
+                      href="tel:+919610081063"
+                      className="text-base font-bold hover:text-electric-blue dark:hover:text-electric-yellow transition-colors block"
+                    >
+                      +91 9610081063
+                    </a>
+                    <span className="text-xs text-slate-400 dark:text-slate-500 font-light block">Kishan Yadav (MCA)</span>
+                  </div>
+                </div>
 
                 <a
                   href="mailto:one8electrical@gmail.com"

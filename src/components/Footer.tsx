@@ -161,10 +161,16 @@ export default function Footer() {
                 </span>
               </div>
 
-              <a href="tel:+919828970722" className="flex items-center space-x-3 hover:text-white transition-colors">
-                <Phone className="h-5 w-5 text-electric-blue shrink-0" />
-                <span>+91 9828970722</span>
-              </a>
+              <div className="space-y-2">
+                <a href="tel:+919828970722" className="flex items-center space-x-3 hover:text-white transition-colors">
+                  <Phone className="h-5 w-5 text-electric-blue shrink-0" />
+                  <span>+91 9828970722 (Hanuman)</span>
+                </a>
+                <a href="tel:+919610081063" className="flex items-center space-x-3 hover:text-white transition-colors">
+                  <Phone className="h-5 w-5 text-electric-blue shrink-0" />
+                  <span>+91 9610081063 (Kishan)</span>
+                </a>
+              </div>
 
               <a href="mailto:one8electrical@gmail.com" className="flex items-center space-x-3 hover:text-white transition-colors">
                 <Mail className="h-5 w-5 text-electric-blue shrink-0" />
