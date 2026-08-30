@@ -31,6 +31,15 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://one8electricalsolutions.com",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" }
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }
+    ],
+  },
   openGraph: {
     title: "One8 Electrical Solutions | Electrical, Solar & Automation Services",
     description: "One8 Electrical Solutions provides industrial electrical work, solar installation, automation, and panel fabrication services across Rajasthan. Contact us.",
