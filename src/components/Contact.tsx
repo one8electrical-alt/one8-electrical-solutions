@@ -88,9 +88,18 @@ export default function Contact() {
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                   One8 Electrical Solutions
                 </h3>
-                <p className="text-sm text-electric-blue dark:text-electric-yellow font-semibold mt-1">
-                  Led by Er. Hanuman Yadav (Electrical Engineer)
-                </p>
+                <div className="mt-4 grid sm:grid-cols-2 gap-4">
+                  <div className="border-l-2 border-electric-blue pl-3">
+                    <span className="text-[10px] text-slate-400 dark:text-slate-500 block font-bold uppercase tracking-wider">Founder / Technical</span>
+                    <span className="text-sm text-slate-900 dark:text-white block font-bold mt-0.5">Er. Hanuman Yadav</span>
+                    <span className="text-xs text-electric-blue dark:text-electric-yellow font-semibold block">Electrical Engineer</span>
+                  </div>
+                  <div className="border-l-2 border-electric-blue pl-3">
+                    <span className="text-[10px] text-slate-400 dark:text-slate-500 block font-bold uppercase tracking-wider">Founder / Operations</span>
+                    <span className="text-sm text-slate-900 dark:text-white block font-bold mt-0.5">Kishan Yadav</span>
+                    <span className="text-xs text-electric-blue dark:text-electric-yellow font-semibold block">MCA</span>
+                  </div>
+                </div>
               </div>
 
               {/* Direct Touchpoints */}
@@ -209,7 +218,7 @@ export default function Contact() {
                     Request Received Successfully!
                   </h4>
                   <p className="text-sm text-slate-500 max-w-sm mx-auto font-light">
-                    Thank you for contacting One8 Electrical Solutions. Er. Hanuman Yadav or our support representative will contact you shortly.
+                    Thank you for contacting One8 Electrical Solutions. Our team will contact you shortly.
                   </p>
                   <button
                     onClick={() => setStatus("idle")}
