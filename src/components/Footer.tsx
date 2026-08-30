@@ -1,6 +1,14 @@
 "use client";
 import React from "react";
 import { Zap, Mail, Phone, MapPin } from "lucide-react";
+import Link from "next/link";
+
+const getSlug = (title: string) => {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+};
 
 export default function Footer() {
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -135,9 +143,9 @@ export default function Footer() {
                 "Automation Setup (PLC/SCADA)",
               ].map((srv) => (
                 <li key={srv}>
-                  <a href="#services" className="hover:text-electric-blue hover:translate-x-1 transition-all inline-block">
+                  <Link href={`/services/${getSlug(srv)}`} className="hover:text-electric-blue hover:translate-x-1 transition-all inline-block">
                     {srv}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

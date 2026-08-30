@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from "./ThemeProvider";
 import { Sun, Moon, Menu, X, Zap, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -24,29 +25,34 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Projects", href: "#projects" },
-    { name: "Industries", href: "#industries" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home", href: "/#home" },
+    { name: "About", href: "/#about" },
+    { name: "Services", href: "/#services" },
+    { name: "Projects", href: "/#projects" },
+    { name: "Industries", href: "/#industries" },
+    { name: "Contact", href: "/#contact" },
   ];
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    setIsOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      const offset = 80; // height of fixed navbar
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
+    if (href.startsWith("/#") && window.location.pathname === "/") {
+      e.preventDefault();
+      setIsOpen(false);
+      const targetId = href.substring(1); // remove the leading "/"
+      const element = document.querySelector(targetId);
+      if (element) {
+        const offset = 80; // height of fixed navbar
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+      }
+    } else {
+      setIsOpen(false);
     }
   };
 
@@ -61,15 +67,15 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a
-            href="#"
-            onClick={(e) => handleLinkClick(e, "#")}
+          <Link
+            href="/#home"
+            onClick={(e) => handleLinkClick(e, "/#home")}
             className="flex items-center space-x-2 group focus:outline-none"
           >
             <div className="bg-electric-blue p-2 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 shadow-md">
               <Zap className="h-6 w-6 text-electric-yellow fill-electric-yellow animate-pulse" />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col text-left">
               <span className="text-xl font-bold tracking-wider text-slate-900 dark:text-white group-hover:text-electric-blue transition-colors">
                 ONE8 ELECTRICAL
               </span>
@@ -77,12 +83,12 @@ export default function Navbar() {
                 Solutions
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
@@ -90,7 +96,7 @@ export default function Navbar() {
               >
                 {link.name}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-electric-blue dark:bg-electric-yellow transition-all duration-300 group-hover:w-full" />
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -121,13 +127,13 @@ export default function Navbar() {
             </a>
 
             {/* CTA Button */}
-            <a
-              href="#contact"
-              onClick={(e) => handleLinkClick(e, "#contact")}
+            <Link
+              href="/#contact"
+              onClick={(e) => handleLinkClick(e, "/#contact")}
               className="bg-electric-blue text-white px-5 py-2.5 rounded-lg text-sm font-bold tracking-wide shadow-lg shadow-electric-blue/30 hover:bg-blue-600 hover:shadow-electric-blue/45 hover:-translate-y-0.5 transition-all duration-200"
             >
               Get Free Quote
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu & Theme Controls */}
@@ -170,14 +176,14 @@ export default function Navbar() {
           >
             <div className="px-4 pt-2 pb-6 space-y-3">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
                   className="block px-3 py-2 rounded-md text-base font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-electric-blue dark:hover:text-electric-yellow"
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
               <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col space-y-3 px-3">
                 <a
@@ -187,13 +193,13 @@ export default function Navbar() {
                   <Phone className="h-5 w-5 text-electric-blue" />
                   <span>+91 9828970722</span>
                 </a>
-                <a
-                  href="#contact"
-                  onClick={(e) => handleLinkClick(e, "#contact")}
+                <Link
+                  href="/#contact"
+                  onClick={(e) => handleLinkClick(e, "/#contact")}
                   className="bg-electric-blue text-white text-center py-3 rounded-lg font-bold tracking-wide shadow-md"
                 >
                   Get Free Quote
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>

@@ -1,6 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+
+const getSlug = (title: string) => {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+};
 import {
   Home,
   Factory,
@@ -224,7 +232,10 @@ export default function Services() {
                 </div>
 
                 {/* Explore button/link decoration */}
-                <div className="flex items-center text-xs font-bold text-electric-blue dark:text-electric-yellow uppercase tracking-wider group-hover:translate-x-1 transition-transform mt-auto">
+                <Link
+                  href={`/services/${getSlug(service.title)}`}
+                  className="flex items-center text-xs font-bold text-electric-blue dark:text-electric-yellow uppercase tracking-wider group-hover:translate-x-1 transition-transform mt-auto focus:outline-none"
+                >
                   <span>Learn More</span>
                   <svg
                     className="ml-1.5 h-3.5 w-3.5"
@@ -239,7 +250,7 @@ export default function Services() {
                       d="M9 5l7 7-7 7"
                     />
                   </svg>
-                </div>
+                </Link>
               </motion.div>
             ))}
           </AnimatePresence>
