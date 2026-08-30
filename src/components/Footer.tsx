@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
-import { Zap, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const getSlug = (title: string) => {
   return title
@@ -37,18 +38,14 @@ export default function Footer() {
           
           {/* Logo & Description Column */}
           <div className="space-y-6">
-            <a href="#" className="flex items-center space-x-2 w-fit">
-              <div className="bg-electric-blue p-2 rounded-lg flex items-center justify-center">
-                <Zap className="h-5 w-5 text-electric-yellow fill-electric-yellow" />
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="text-lg font-bold tracking-wider text-white">
-                  ONE8 ELECTRICAL
-                </span>
-                <span className="text-[9px] font-semibold text-electric-blue tracking-widest uppercase">
-                  Solutions
-                </span>
-              </div>
+            <a href="#" className="flex items-center w-fit">
+              <Image
+                src="/logo-dark.svg"
+                alt="ONE8 Electrical Solutions Logo"
+                width={180}
+                height={40}
+                className="h-10 w-auto transition-transform duration-300 hover:scale-[1.02]"
+              />
             </a>
             <p className="text-sm font-light text-slate-400 leading-relaxed">
               Professional electrical engineering, smart industrial automation panels, solar setups, electrical audits, and safety contracting services.

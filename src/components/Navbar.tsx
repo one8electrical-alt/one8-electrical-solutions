@@ -1,9 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useTheme } from "./ThemeProvider";
-import { Sun, Moon, Menu, X, Zap, Phone } from "lucide-react";
+import { Sun, Moon, Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -70,19 +71,16 @@ export default function Navbar() {
           <Link
             href="/#home"
             onClick={(e) => handleLinkClick(e, "/#home")}
-            className="flex items-center space-x-2 group focus:outline-none"
+            className="flex items-center group focus:outline-none"
           >
-            <div className="bg-electric-blue p-2 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 shadow-md">
-              <Zap className="h-6 w-6 text-electric-yellow fill-electric-yellow animate-pulse" />
-            </div>
-            <div className="flex flex-col text-left">
-              <span className="text-xl font-bold tracking-wider text-white group-hover:text-electric-blue transition-colors">
-                ONE8 ELECTRICAL
-              </span>
-              <span className="text-[10px] font-semibold text-electric-blue tracking-widest uppercase">
-                Solutions
-              </span>
-            </div>
+            <Image
+              src="/logo-dark.svg"
+              alt="ONE8 Electrical Solutions Logo"
+              width={220}
+              height={50}
+              className="h-10 w-auto sm:h-12 transition-transform duration-300 group-hover:scale-[1.02]"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation Links */}
