@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "One8 Electrical Solutions | Professional Power, Solar & Automation Engineering",
-  description: "One8 Electrical Solutions provides safety-first electrical engineering, rooftop solar grids, PLC/SCADA industrial automation, custom control panels, and electrical wiring contracts across Rajasthan. Led by Er. Hanuman Yadav.",
+  title: "One8 Electrical Solutions | Electrical, Solar & Automation Services",
+  description: "One8 Electrical Solutions provides industrial electrical work, solar installation, automation, and panel fabrication services across Rajasthan. Contact us.",
   keywords: [
     "One8 Electrical Solutions",
     "Hanuman Yadav",
@@ -28,12 +28,23 @@ export const metadata: Metadata = {
     "Earthing and Lightning Protection Rajasthan",
   ],
   authors: [{ name: "Er. Hanuman Yadav" }],
+  alternates: {
+    canonical: "https://one8electricalsolutions.com",
+  },
   openGraph: {
-    title: "One8 Electrical Solutions | Power, Solar & Automation Engineering",
-    description: "Premium electrical contracting, solar panels, and SCADA automation across Rajasthan. Led by Er. Hanuman Yadav.",
+    title: "One8 Electrical Solutions | Electrical, Solar & Automation Services",
+    description: "One8 Electrical Solutions provides industrial electrical work, solar installation, automation, and panel fabrication services across Rajasthan. Contact us.",
     url: "https://one8electricalsolutions.com",
     siteName: "One8 Electrical Solutions",
     type: "website",
+    images: [
+      {
+        url: "https://one8electricalsolutions.com/images/hero-bg.jpg",
+        width: 1200,
+        height: 630,
+        alt: "One8 Electrical Solutions",
+      },
+    ],
   },
 };
 
