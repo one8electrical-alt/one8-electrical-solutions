@@ -13,27 +13,27 @@ import {
 } from "lucide-react";
 
 // Icon mapping helper
-const getServiceIcon = (slug: string) => {
+const renderServiceIcon = (slug: string, className: string) => {
   switch (slug) {
-    case "domestic-wiring": return HomeIcon;
-    case "industrial-wiring": return Factory;
-    case "motor-installation-repair": return Wrench;
-    case "panel-board-design-fabrication": return Cpu;
-    case "dg-set-installation-maintenance": return Zap;
-    case "compressor-installation": return Wind;
-    case "hvac-system-wiring": return Thermometer;
-    case "solar-panel-installation": return Sun;
-    case "power-factor-improvement": return Gauge;
-    case "earthing-lightning-protection": return Shield;
-    case "etp-stp-panel-installation": return Droplet;
-    case "energy-audit-service": return FileSpreadsheet;
-    case "fire-alarm-system-wiring": return Flame;
-    case "cable-laying-termination": return Layers;
-    case "transformer-installation-service": return Network;
-    case "automation-setup-plc-scada": return Binary;
-    case "street-lighting-solution": return Lightbulb;
-    case "amc-annual-maintenance-contract": return FileCheck;
-    default: return Zap;
+    case "domestic-wiring": return <HomeIcon className={className} />;
+    case "industrial-wiring": return <Factory className={className} />;
+    case "motor-installation-repair": return <Wrench className={className} />;
+    case "panel-board-design-fabrication": return <Cpu className={className} />;
+    case "dg-set-installation-maintenance": return <Zap className={className} />;
+    case "compressor-installation": return <Wind className={className} />;
+    case "hvac-system-wiring": return <Thermometer className={className} />;
+    case "solar-panel-installation": return <Sun className={className} />;
+    case "power-factor-improvement": return <Gauge className={className} />;
+    case "earthing-lightning-protection": return <Shield className={className} />;
+    case "etp-stp-panel-installation": return <Droplet className={className} />;
+    case "energy-audit-service": return <FileSpreadsheet className={className} />;
+    case "fire-alarm-system-wiring": return <Flame className={className} />;
+    case "cable-laying-termination": return <Layers className={className} />;
+    case "transformer-installation-service": return <Network className={className} />;
+    case "automation-setup-plc-scada": return <Binary className={className} />;
+    case "street-lighting-solution": return <Lightbulb className={className} />;
+    case "amc-annual-maintenance-contract": return <FileCheck className={className} />;
+    default: return <Zap className={className} />;
   }
 };
 
@@ -84,8 +84,6 @@ export default async function ServicePage({
   if (!service) {
     notFound();
   }
-
-  const IconComponent = getServiceIcon(service.slug);
 
   // Group other services for internal links side navigation
   const otherServices = servicesList.filter((s) => s.slug !== slug).slice(0, 5);
@@ -144,7 +142,7 @@ export default async function ServicePage({
               <section className="p-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-brand-card shadow-sm space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="bg-electric-blue/10 text-electric-blue p-2.5 rounded-xl">
-                    <IconComponent className="h-6 w-6" />
+                    {renderServiceIcon(service.slug, "h-6 w-6")}
                   </div>
                   <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
                     Service Overview
