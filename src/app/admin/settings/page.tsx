@@ -30,7 +30,7 @@ export default function AdminSettings() {
 
       if (data && data.length > 0) {
         const settingsMap: any = {};
-        data.forEach((row) => {
+        data.forEach((row: any) => {
           settingsMap[row.key] = row.value;
         });
 

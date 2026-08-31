@@ -50,7 +50,7 @@ export default function Testimonials() {
         if (error) throw error;
 
         if (data && data.length > 0) {
-          const liveReviews: Testimonial[] = data.map((item) => ({
+          const liveReviews: Testimonial[] = data.map((item: any) => ({
             name: item.name,
             role: item.role,
             company: item.company,

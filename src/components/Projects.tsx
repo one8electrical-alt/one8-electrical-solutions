@@ -71,7 +71,7 @@ export default function Projects() {
         if (error) throw error;
 
         if (data && data.length > 0) {
-          const liveProjects: Project[] = data.map((item) => ({
+          const liveProjects: Project[] = data.map((item: any) => ({
             title: item.title,
             category: item.category as any,
             location: item.location,

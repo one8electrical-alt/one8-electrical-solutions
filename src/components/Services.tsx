@@ -154,7 +154,7 @@ export default function Services() {
         if (error) throw error;
 
         if (data && data.length > 0) {
-          const liveServices: Service[] = data.map((item) => ({
+          const liveServices: Service[] = data.map((item: any) => ({
             title: item.title,
             category: item.category as any,
             desc: item.desc,

@@ -1,0 +1,160 @@
+{
+  "services": [
+    {
+      "id": "1",
+      "title": "Domestic Wiring",
+      "category": "power",
+      "desc": "Providing high-quality residential internal electrical wiring services for apartments, houses, villas, and housing societies.",
+      "icon_name": "Home",
+      "active": true,
+      "created_at": "2026-08-30T12:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "title": "Industrial Wiring",
+      "category": "power",
+      "desc": "Heavy-duty industrial conduits, power routing, and distribution panels for factories and manufacturing plants across Rajasthan.",
+      "icon_name": "Factory",
+      "active": true,
+      "created_at": "2026-08-30T12:01:00.000Z"
+    },
+    {
+      "id": "3",
+      "title": "Solar Panel Installation",
+      "category": "green",
+      "desc": "Rooftop solar PV array design, structural frame layouts, solar inverter installation, and net-metering integration.",
+      "icon_name": "Sun",
+      "active": true,
+      "created_at": "2026-08-30T12:02:00.000Z"
+    },
+    {
+      "id": "4",
+      "title": "Automation Setup (PLC/SCADA)",
+      "category": "control",
+      "desc": "Programmable Logic Controller setups and SCADA dashboard interfaces for industrial process monitoring.",
+      "icon_name": "Cpu",
+      "active": true,
+      "created_at": "2026-08-30T12:03:00.000Z"
+    },
+    {
+      "id": "5",
+      "title": "Panel Board Design & Fabrication",
+      "category": "control",
+      "desc": "Custom electrical panel board design, fabrication, and busbar calculations for systematic power distribution.",
+      "icon_name": "Layers",
+      "active": true,
+      "created_at": "2026-08-30T12:04:00.000Z"
+    }
+  ],
+  "projects": [
+    {
+      "id": "1",
+      "title": "50kW Rooftop Solar Installation",
+      "category": "Solar Energy",
+      "location": "Newai, Tonk",
+      "desc": "Successfully commissioned a 50kW grid-tied rooftop solar system with net-metering integration.",
+      "image_url": "/images/hero-bg.jpg",
+      "created_at": "2026-08-30T12:10:00.000Z"
+    },
+    {
+      "id": "2",
+      "title": "Factory Power Cabling & Panels",
+      "category": "Industrial Electrical",
+      "location": "Jaipur Industrial Area",
+      "desc": "Engineered heavy-duty HT power cabling, tray routing, and dynamic APFC panels for a manufacturing unit.",
+      "image_url": "/images/hero-bg.jpg",
+      "created_at": "2026-08-30T12:11:00.000Z"
+    }
+  ],
+  "enquiries": [
+    {
+      "id": "1",
+      "name": "Rajesh Sharma",
+      "phone": "+91 9988776655",
+      "email": "rajesh@sharmatex.com",
+      "company": "Sharma Textiles",
+      "service": "Power Factor Improvement",
+      "message": "We are facing high electricity billing and grid penalties. Please visit our mill in Tonk for a power audit and quote.",
+      "is_read": false,
+      "created_at": "2026-08-31T01:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "name": "Amit Yadav",
+      "phone": "+91 9876543210",
+      "email": "amit@yadavvillas.com",
+      "company": "",
+      "service": "Solar Panel Installation",
+      "message": "Want to install 10kW rooftop solar grid on my house in Newai. Please send estimation options.",
+      "is_read": true,
+      "created_at": "2026-08-30T15:00:00.000Z"
+    }
+  ],
+  "testimonials": [
+    {
+      "id": "1",
+      "name": "Vikram Singh",
+      "role": "Factory Manager, Apex Food Industries",
+      "content": "Excellent industrial panel board fabrication work. Er. Hanuman Yadav's engineering oversight was highly professional and timely.",
+      "rating": 5,
+      "active": true,
+      "created_at": "2026-08-30T12:20:00.000Z"
+    },
+    {
+      "id": "2",
+      "name": "Ram Gopal",
+      "role": "Residential Society Secretary",
+      "content": "One8 team handled our township street lighting and earthing protection. Safe standards were prioritized throughout.",
+      "rating": 5,
+      "active": true,
+      "created_at": "2026-08-30T12:21:00.000Z"
+    }
+  ],
+  "settings": [
+    {
+      "key": "owner_name",
+      "value": "Er. Hanuman Yadav & Kishan Yadav",
+      "created_at": "2026-08-30T12:30:00.000Z"
+    },
+    {
+      "key": "company_address",
+      "value": "Raholi Road, Gunsi, Newai, Tonk, Rajasthan",
+      "created_at": "2026-08-30T12:31:00.000Z"
+    },
+    {
+      "key": "company_phone",
+      "value": "+91 9828970722, +91 9610081063",
+      "created_at": "2026-08-30T12:32:00.000Z"
+    },
+    {
+      "key": "company_email",
+      "value": "one8electrical@gmail.com",
+      "created_at": "2026-08-30T12:33:00.000Z"
+    },
+    {
+      "key": "company_whatsapp",
+      "value": "9828970722",
+      "created_at": "2026-08-30T12:34:00.000Z"
+    },
+    {
+      "key": "seo_title",
+      "value": "One8 Electrical Solutions | Electrical, Solar & Automation Services",
+      "created_at": "2026-08-30T12:35:00.000Z"
+    },
+    {
+      "key": "seo_description",
+      "value": "One8 Electrical Solutions provides industrial electrical work, solar installation, automation, and panel fabrication services across Rajasthan. Contact us.",
+      "created_at": "2026-08-30T12:36:00.000Z"
+    },
+    {
+      "key": "og_image",
+      "value": "/images/hero-bg.jpg",
+      "created_at": "2026-08-30T12:37:00.000Z"
+    },
+    {
+      "key": "favicon",
+      "value": "/favicon.ico",
+      "created_at": "2026-08-30T12:38:00.000Z"
+    }
+  ]
+}

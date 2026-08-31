@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  let title = "One8 Electrical Solutions | Professional Power, Solar & Automation Engineering";
-  let description = "One8 Electrical Solutions provides safety-first electrical engineering, rooftop solar grids, PLC/SCADA industrial automation, custom control panels, and electrical wiring contracts across Rajasthan. Led by Er. Hanuman Yadav.";
+  let title = "One8 Electrical Solutions | Electrical, Solar & Automation Services";
+  let description = "One8 Electrical Solutions provides industrial electrical work, solar installation, automation, and panel fabrication services across Rajasthan. Contact us.";
   let ogImage = "https://one8electricalsolutions.com/images/hero-bg.jpg";
   let favicon = "/favicon.ico";
 
@@ -24,14 +24,14 @@ export async function generateMetadata(): Promise<Metadata> {
     const supabase = await createClient();
     const { data } = await supabase.from("settings").select("*");
     if (data && data.length > 0) {
-      data.forEach((row) => {
+      data.forEach((row: any) => {
         if (row.key === "seo_title" && row.value) title = row.value;
         if (row.key === "seo_description" && row.value) description = row.value;
         if (row.key === "og_image" && row.value) ogImage = row.value;
         if (row.key === "favicon" && row.value) favicon = row.value;
       });
     }
-  } catch (e) {
+  } catch {
     // Fail silent on missing connection or DB config
   }
 
@@ -50,6 +50,9 @@ export async function generateMetadata(): Promise<Metadata> {
       "Earthing and Lightning Protection Rajasthan",
     ],
     authors: [{ name: "Er. Hanuman Yadav" }],
+    alternates: {
+      canonical: "https://one8electricalsolutions.com",
+    },
     icons: {
       icon: favicon,
     },
@@ -79,7 +82,7 @@ export default async function RootLayout({
     const supabase = await createClient();
     const { data } = await supabase.from("settings").select("*");
     if (data && data.length > 0) {
-      data.forEach((row) => {
+      data.forEach((row: any) => {
         if (row.key === "owner_name" && row.value) ownerName = row.value;
         if (row.key === "company_address" && row.value) companyAddress = row.value;
         if (row.key === "company_phone" && row.value) companyPhone = row.value;
@@ -87,7 +90,7 @@ export default async function RootLayout({
         if (row.key === "og_image" && row.value) ogImage = row.value;
       });
     }
-  } catch (e) {
+  } catch {
     // Fail silent
   }
 
