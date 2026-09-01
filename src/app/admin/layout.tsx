@@ -37,57 +37,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     let isMounted = true;
 
-    // 1. Listen for realtime session updates
+    // Supabase onAuthStateChange is the official event-driven way to handle initial session loading
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event: any, session: any) => {
+    } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
       if (!isMounted) return;
-      console.log("[One8 Auth Guard] State change event:", event, "Has Session:", !!session);
 
       if (session) {
         setIsAuthenticated(true);
         setAuthChecking(false);
-      } else if (event === "SIGNED_OUT") {
+      } else {
         setIsAuthenticated(false);
         setAuthChecking(false);
         router.replace("/admin/login");
       }
     });
-
-    // 2. Initial session check with grace period to prevent race-condition bouncing
-    const checkInitialAuth = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!isMounted) return;
-
-        if (session) {
-          setIsAuthenticated(true);
-          setAuthChecking(false);
-        } else {
-          // Grace period: allow Supabase storage reader to finish before deciding
-          setTimeout(async () => {
-            if (!isMounted) return;
-            const { data: { session: retrySession } } = await supabase.auth.getSession();
-            if (retrySession) {
-              setIsAuthenticated(true);
-              setAuthChecking(false);
-            } else {
-              setIsAuthenticated(false);
-              setAuthChecking(false);
-              router.replace("/admin/login");
-            }
-          }, 400);
-        }
-      } catch (err) {
-        if (isMounted) {
-          setIsAuthenticated(false);
-          setAuthChecking(false);
-          router.replace("/admin/login");
-        }
-      }
-    };
-
-    checkInitialAuth();
 
     return () => {
       isMounted = false;

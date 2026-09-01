@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Zap, Lock, Mail, AlertTriangle, CheckCircle2, Loader2 } from "lucide-react";
 
@@ -10,25 +10,6 @@ export default function AdminLogin() {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
-  useEffect(() => {
-    let isMounted = true;
-    const checkUser = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session && isMounted) {
-          console.log("[One8 Auth] Active session detected, redirecting to /admin...");
-          window.location.replace("/admin");
-        }
-      } catch (err) {
-        console.warn("[One8 Auth] Session check error:", err);
-      }
-    };
-    checkUser();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -36,7 +17,6 @@ export default function AdminLogin() {
     setSuccessMsg("");
 
     const cleanEmail = email.trim();
-    console.log("[One8 Auth] Submitting login request for:", cleanEmail);
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -44,14 +24,7 @@ export default function AdminLogin() {
         password,
       });
 
-      console.log("[One8 Auth] Supabase response:", {
-        userId: data?.user?.id,
-        hasSession: !!data?.session,
-        error: error?.message,
-      });
-
       if (error) {
-        console.error("[One8 Auth] Sign-in error:", error.message);
         setErrorMsg(error.message || "Invalid credentials. Please verify your email and password.");
         setLoading(false);
         return;
@@ -60,14 +33,13 @@ export default function AdminLogin() {
       if (data?.session || data?.user) {
         setSuccessMsg("Authentication verified! Opening One8 Control Desk...");
         setTimeout(() => {
-          window.location.replace("/admin");
-        }, 300);
+          window.location.href = "/admin";
+        }, 200);
       } else {
         setErrorMsg("Authentication did not establish a valid session. Please verify your Supabase user.");
         setLoading(false);
       }
     } catch (err: any) {
-      console.error("[One8 Auth] Unexpected sign-in exception:", err);
       setErrorMsg(err?.message || "An unexpected error occurred during login. Please try again.");
       setLoading(false);
     }
