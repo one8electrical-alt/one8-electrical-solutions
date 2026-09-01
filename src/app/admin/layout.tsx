@@ -29,61 +29,68 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const isLoginPage = pathname === "/admin/login";
 
   useEffect(() => {
-    let mounted = true;
+    // If on login page, do not enforce auth check in layout
+    if (isLoginPage) {
+      setAuthChecking(false);
+      return;
+    }
 
-    // 1. Initial Session Check
-    const checkSession = async () => {
+    let isMounted = true;
+
+    // 1. Listen for realtime session updates
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event: any, session: any) => {
+      if (!isMounted) return;
+      console.log("[One8 Auth Guard] State change event:", event, "Has Session:", !!session);
+
+      if (session) {
+        setIsAuthenticated(true);
+        setAuthChecking(false);
+      } else if (event === "SIGNED_OUT") {
+        setIsAuthenticated(false);
+        setAuthChecking(false);
+        router.replace("/admin/login");
+      }
+    });
+
+    // 2. Initial session check with grace period to prevent race-condition bouncing
+    const checkInitialAuth = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
-        if (!mounted) return;
+        if (!isMounted) return;
 
         if (session) {
           setIsAuthenticated(true);
-          if (isLoginPage) {
-            router.replace("/admin");
-          }
+          setAuthChecking(false);
         } else {
-          setIsAuthenticated(false);
-          if (!isLoginPage) {
-            router.replace("/admin/login");
-          }
+          // Grace period: allow Supabase storage reader to finish before deciding
+          setTimeout(async () => {
+            if (!isMounted) return;
+            const { data: { session: retrySession } } = await supabase.auth.getSession();
+            if (retrySession) {
+              setIsAuthenticated(true);
+              setAuthChecking(false);
+            } else {
+              setIsAuthenticated(false);
+              setAuthChecking(false);
+              router.replace("/admin/login");
+            }
+          }, 400);
         }
       } catch (err) {
-        if (!mounted) return;
-        setIsAuthenticated(false);
-        if (!isLoginPage) {
-          router.replace("/admin/login");
-        }
-      } finally {
-        if (mounted) {
+        if (isMounted) {
+          setIsAuthenticated(false);
           setAuthChecking(false);
+          router.replace("/admin/login");
         }
       }
     };
 
-    checkSession();
-
-    // 2. Realtime Auth State Listener
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
-      if (!mounted) return;
-      if (session) {
-        setIsAuthenticated(true);
-        if (isLoginPage) {
-          router.replace("/admin");
-        }
-      } else {
-        setIsAuthenticated(false);
-        if (!isLoginPage) {
-          router.replace("/admin/login");
-        }
-      }
-      setAuthChecking(false);
-    });
+    checkInitialAuth();
 
     return () => {
-      mounted = false;
+      isMounted = false;
       subscription.unsubscribe();
     };
   }, [isLoginPage, router]);
@@ -94,7 +101,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     router.replace("/admin/login");
   };
 
-  // If on login page, render login page directly
+  // If on login page, render login page directly without sidebar
   if (isLoginPage) {
     return <>{children}</>;
   }

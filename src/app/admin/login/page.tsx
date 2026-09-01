@@ -11,13 +11,13 @@ export default function AdminLogin() {
   const [successMsg, setSuccessMsg] = useState("");
 
   useEffect(() => {
-    let mounted = true;
+    let isMounted = true;
     const checkUser = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
-        if (session && mounted) {
-          console.log("[One8 Auth] Existing session found, redirecting to /admin...");
-          window.location.href = "/admin";
+        if (session && isMounted) {
+          console.log("[One8 Auth] Active session detected, redirecting to /admin...");
+          window.location.replace("/admin");
         }
       } catch (err) {
         console.warn("[One8 Auth] Session check error:", err);
@@ -25,7 +25,7 @@ export default function AdminLogin() {
     };
     checkUser();
     return () => {
-      mounted = false;
+      isMounted = false;
     };
   }, []);
 
@@ -36,7 +36,7 @@ export default function AdminLogin() {
     setSuccessMsg("");
 
     const cleanEmail = email.trim();
-    console.log("[One8 Auth] Starting sign-in for:", cleanEmail);
+    console.log("[One8 Auth] Submitting login request for:", cleanEmail);
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -44,26 +44,30 @@ export default function AdminLogin() {
         password,
       });
 
-      console.log("[One8 Auth] Response received:", { user: data?.user?.id, error });
+      console.log("[One8 Auth] Supabase response:", {
+        userId: data?.user?.id,
+        hasSession: !!data?.session,
+        error: error?.message,
+      });
 
       if (error) {
-        console.error("[One8 Auth] Login rejected:", error.message);
-        setErrorMsg(error.message || "Invalid login credentials. Please check your email and password.");
+        console.error("[One8 Auth] Sign-in error:", error.message);
+        setErrorMsg(error.message || "Invalid credentials. Please verify your email and password.");
         setLoading(false);
         return;
       }
 
       if (data?.session || data?.user) {
-        setSuccessMsg("Authentication successful! Loading One8 Control Desk...");
+        setSuccessMsg("Authentication verified! Opening One8 Control Desk...");
         setTimeout(() => {
-          window.location.href = "/admin";
-        }, 500);
+          window.location.replace("/admin");
+        }, 300);
       } else {
-        setErrorMsg("Authentication did not return a valid session. Please verify your Supabase user.");
+        setErrorMsg("Authentication did not establish a valid session. Please verify your Supabase user.");
         setLoading(false);
       }
     } catch (err: any) {
-      console.error("[One8 Auth] Unexpected exception during login:", err);
+      console.error("[One8 Auth] Unexpected sign-in exception:", err);
       setErrorMsg(err?.message || "An unexpected error occurred during login. Please try again.");
       setLoading(false);
     }
@@ -122,7 +126,7 @@ export default function AdminLogin() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="admin@one8electrical.com"
+                    placeholder="one8electrical@gmail.com"
                     className="w-full pl-11 pr-4 py-3 bg-[#070B19] border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-electric-blue focus:ring-1 focus:ring-electric-blue text-sm transition-colors"
                   />
                 </div>
@@ -157,7 +161,7 @@ export default function AdminLogin() {
               {loading ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>Authenticating...</span>
+                  <span>Verifying Credentials...</span>
                 </>
               ) : (
                 <span>Sign In to Dashboard</span>
