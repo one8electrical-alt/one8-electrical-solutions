@@ -1,13 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
-import { Zap, Lock, Mail, AlertTriangle } from "lucide-react";
+import { Zap, Lock, Mail, AlertTriangle, CheckCircle2, Loader2 } from "lucide-react";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
   useEffect(() => {
     let mounted = true;
@@ -15,10 +16,11 @@ export default function AdminLogin() {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (session && mounted) {
+          console.log("[One8 Auth] Existing session found, redirecting to /admin...");
           window.location.href = "/admin";
         }
-      } catch {
-        // Fail silent
+      } catch (err) {
+        console.warn("[One8 Auth] Session check error:", err);
       }
     };
     checkUser();
@@ -31,27 +33,38 @@ export default function AdminLogin() {
     e.preventDefault();
     setLoading(true);
     setErrorMsg("");
+    setSuccessMsg("");
+
+    const cleanEmail = email.trim();
+    console.log("[One8 Auth] Starting sign-in for:", cleanEmail);
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
+        email: cleanEmail,
         password,
       });
 
+      console.log("[One8 Auth] Response received:", { user: data?.user?.id, error });
+
       if (error) {
+        console.error("[One8 Auth] Login rejected:", error.message);
         setErrorMsg(error.message || "Invalid login credentials. Please check your email and password.");
         setLoading(false);
         return;
       }
 
       if (data?.session || data?.user) {
-        window.location.href = "/admin";
+        setSuccessMsg("Authentication successful! Loading One8 Control Desk...");
+        setTimeout(() => {
+          window.location.href = "/admin";
+        }, 500);
       } else {
-        setErrorMsg("Failed to establish session. Please verify your Supabase credentials.");
+        setErrorMsg("Authentication did not return a valid session. Please verify your Supabase user.");
         setLoading(false);
       }
     } catch (err: any) {
-      setErrorMsg(err?.message || "An unexpected error occurred. Please try again.");
+      console.error("[One8 Auth] Unexpected exception during login:", err);
+      setErrorMsg(err?.message || "An unexpected error occurred during login. Please try again.");
       setLoading(false);
     }
   };
@@ -81,9 +94,16 @@ export default function AdminLogin() {
           {/* Form */}
           <form onSubmit={handleLogin} className="space-y-6">
             {errorMsg && (
-              <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-center space-x-2">
-                <AlertTriangle className="h-4 w-4 shrink-0" />
-                <span>{errorMsg}</span>
+              <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-start space-x-2.5">
+                <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+                <span className="leading-relaxed">{errorMsg}</span>
+              </div>
+            )}
+
+            {successMsg && (
+              <div className="p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 text-xs flex items-center space-x-2.5">
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-green-400" />
+                <span className="leading-relaxed font-semibold">{successMsg}</span>
               </div>
             )}
 
@@ -132,9 +152,16 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-electric-blue text-white py-3.5 rounded-xl font-bold tracking-wide shadow-lg shadow-electric-blue/30 hover:bg-blue-600 transition-all disabled:opacity-50 text-sm"
+              className="w-full bg-electric-blue text-white py-3.5 rounded-xl font-bold tracking-wide shadow-lg shadow-electric-blue/30 hover:bg-blue-600 transition-all disabled:opacity-50 text-sm flex items-center justify-center space-x-2"
             >
-              {loading ? "Authenticating..." : "Sign In to Dashboard"}
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Authenticating...</span>
+                </>
+              ) : (
+                <span>Sign In to Dashboard</span>
+              )}
             </button>
           </form>
 
