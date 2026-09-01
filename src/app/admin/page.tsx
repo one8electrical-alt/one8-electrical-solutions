@@ -1,5 +1,6 @@
-import React from "react";
-import { createClient } from "@/lib/supabaseServer";
+"use client";
+import React, { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 import {
   Cpu,
   FolderKanban,
@@ -7,39 +8,60 @@ import {
   MessageSquare,
   Zap,
   AlertCircle,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 
-export const revalidate = 0; // Disable server cache for live dashboard stats
+export default function AdminDashboard() {
+  const [servicesCount, setServicesCount] = useState(0);
+  const [projectsCount, setProjectsCount] = useState(0);
+  const [enquiriesCount, setEnquiriesCount] = useState(0);
+  const [testimonialsCount, setTestimonialsCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [connectionWarning, setConnectionWarning] = useState(false);
 
-export default async function AdminDashboard() {
-  let servicesCount = 0;
-  let projectsCount = 0;
-  let enquiriesCount = 0;
-  let testimonialsCount = 0;
-  let connectionWarning = false;
+  useEffect(() => {
+    let mounted = true;
 
-  try {
-    const supabase = await createClient();
+    const fetchStats = async () => {
+      try {
+        setLoading(true);
+        const [sRes, pRes, eRes, tRes] = await Promise.all([
+          supabase.from("services").select("*", { count: "exact", head: true }),
+          supabase.from("projects").select("*", { count: "exact", head: true }),
+          supabase.from("enquiries").select("*", { count: "exact", head: true }),
+          supabase.from("testimonials").select("*", { count: "exact", head: true }),
+        ]);
 
-    const [sRes, pRes, eRes, tRes] = await Promise.all([
-      supabase.from("services").select("*", { count: "exact", head: true }),
-      supabase.from("projects").select("*", { count: "exact", head: true }),
-      supabase.from("enquiries").select("*", { count: "exact", head: true }),
-      supabase.from("testimonials").select("*", { count: "exact", head: true }),
-    ]);
+        if (!mounted) return;
 
-    servicesCount = sRes.count || 0;
-    projectsCount = pRes.count || 0;
-    enquiriesCount = eRes.count || 0;
-    testimonialsCount = tRes.count || 0;
+        setServicesCount(sRes.count || 0);
+        setProjectsCount(pRes.count || 0);
+        setEnquiriesCount(eRes.count || 0);
+        setTestimonialsCount(tRes.count || 0);
 
-    if (sRes.error || pRes.error || eRes.error || tRes.error) {
-      connectionWarning = true;
-    }
-  } catch (error) {
-    connectionWarning = true;
-  }
+        if (sRes.error || pRes.error || eRes.error || tRes.error) {
+          setConnectionWarning(true);
+        } else {
+          setConnectionWarning(false);
+        }
+      } catch {
+        if (mounted) {
+          setConnectionWarning(true);
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchStats();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const statCards = [
     {
@@ -92,44 +114,51 @@ export default async function AdminDashboard() {
           <div>
             <span className="font-bold">Database Setup Notice:</span>
             <p className="text-xs mt-1 font-light leading-relaxed">
-              Unable to load statistics from Supabase database. Please check that you have configured your local `.env.local` environment keys and that the appropriate SQL tables are created in your Supabase panel.
+              Unable to load live statistics from Supabase database. Please check your Supabase connection and tables.
             </p>
           </div>
         </div>
       )}
 
       {/* Stats Cards Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {statCards.map((card) => (
-          <div
-            key={card.name}
-            className="p-6 rounded-2xl bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow"
-          >
-            <div>
-              <div className="flex justify-between items-start mb-4">
-                <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
-                  {card.icon}
-                </div>
-                <span className="text-3xl font-extrabold text-slate-900 dark:text-white">
-                  {card.count}
-                </span>
-              </div>
-              <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">
-                {card.name}
-              </h3>
-              <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 font-light">
-                {card.desc}
-              </p>
-            </div>
-            <Link
-              href={card.link}
-              className="text-xs font-bold text-electric-blue dark:text-electric-yellow hover:underline mt-6 block"
+      {loading ? (
+        <div className="flex flex-col items-center justify-center py-16 space-y-4">
+          <Loader2 className="h-8 w-8 animate-spin text-electric-blue" />
+          <p className="text-sm text-slate-400">Loading dashboard overview metrics...</p>
+        </div>
+      ) : (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {statCards.map((card) => (
+            <div
+              key={card.name}
+              className="p-6 rounded-2xl bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow"
             >
-              Manage Module &rarr;
-            </Link>
-          </div>
-        ))}
-      </div>
+              <div>
+                <div className="flex justify-between items-start mb-4">
+                  <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
+                    {card.icon}
+                  </div>
+                  <span className="text-3xl font-extrabold text-slate-900 dark:text-white">
+                    {card.count}
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">
+                  {card.name}
+                </h3>
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 font-light">
+                  {card.desc}
+                </p>
+              </div>
+              <Link
+                href={card.link}
+                className="text-xs font-bold text-electric-blue dark:text-electric-yellow hover:underline mt-6 block"
+              >
+                Manage Module &rarr;
+              </Link>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* System Quick Information Panel */}
       <div className="p-8 rounded-2xl bg-white dark:bg-brand-card border border-slate-200 dark:border-slate-800 shadow-sm">

@@ -1,7 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
-import { useRouter } from "next/navigation";
 import { Zap, Lock, Mail, AlertTriangle } from "lucide-react";
 
 export default function AdminLogin() {
@@ -9,7 +8,24 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const router = useRouter();
+
+  useEffect(() => {
+    let mounted = true;
+    const checkUser = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session && mounted) {
+          window.location.href = "/admin";
+        }
+      } catch {
+        // Fail silent
+      }
+    };
+    checkUser();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,20 +33,25 @@ export default function AdminLogin() {
     setErrorMsg("");
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
         password,
       });
 
       if (error) {
-        setErrorMsg(error.message);
+        setErrorMsg(error.message || "Invalid login credentials. Please check your email and password.");
+        setLoading(false);
+        return;
+      }
+
+      if (data?.session || data?.user) {
+        window.location.href = "/admin";
       } else {
-        router.refresh();
-        router.push("/admin");
+        setErrorMsg("Failed to establish session. Please verify your Supabase credentials.");
+        setLoading(false);
       }
     } catch (err: any) {
-      setErrorMsg("An unexpected error occurred. Please try again.");
-    } finally {
+      setErrorMsg(err?.message || "An unexpected error occurred. Please try again.");
       setLoading(false);
     }
   };
@@ -117,10 +138,10 @@ export default function AdminLogin() {
             </button>
           </form>
 
-          {/* Copyright */}
-          <div className="text-center text-[10px] text-slate-500">
-            © 2026 One8 Electrical Solutions. All Rights Reserved.
-          </div>
+          {/* Footer Note */}
+          <p className="text-center text-[11px] text-slate-500">
+            Protected Admin Desk &bull; One8 Electrical Solutions
+          </p>
         </div>
       </div>
     </div>

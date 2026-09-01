@@ -15,24 +15,109 @@ import {
   Menu,
   X,
   Globe,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [authChecking, setAuthChecking] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
-  // If path is login, don't wrap with Sidebar
-  if (pathname === "/admin/login") {
-    return <>{children}</>;
-  }
+  const isLoginPage = pathname === "/admin/login";
+
+  useEffect(() => {
+    let mounted = true;
+
+    // 1. Initial Session Check
+    const checkSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!mounted) return;
+
+        if (session) {
+          setIsAuthenticated(true);
+          if (isLoginPage) {
+            router.replace("/admin");
+          }
+        } else {
+          setIsAuthenticated(false);
+          if (!isLoginPage) {
+            router.replace("/admin/login");
+          }
+        }
+      } catch (err) {
+        if (!mounted) return;
+        setIsAuthenticated(false);
+        if (!isLoginPage) {
+          router.replace("/admin/login");
+        }
+      } finally {
+        if (mounted) {
+          setAuthChecking(false);
+        }
+      }
+    };
+
+    checkSession();
+
+    // 2. Realtime Auth State Listener
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
+      if (!mounted) return;
+      if (session) {
+        setIsAuthenticated(true);
+        if (isLoginPage) {
+          router.replace("/admin");
+        }
+      } else {
+        setIsAuthenticated(false);
+        if (!isLoginPage) {
+          router.replace("/admin/login");
+        }
+      }
+      setAuthChecking(false);
+    });
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, [isLoginPage, router]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.refresh();
-    router.push("/admin/login");
+    setIsAuthenticated(false);
+    router.replace("/admin/login");
   };
+
+  // If on login page, render login page directly
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
+  // Auth checking loader for all protected admin views
+  if (authChecking) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#070B19] text-white space-y-4">
+        <div className="bg-electric-blue/15 p-4 rounded-2xl ring-1 ring-electric-blue/30 animate-pulse">
+          <Zap className="h-8 w-8 text-electric-yellow fill-electric-yellow" />
+        </div>
+        <div className="flex items-center space-x-2 text-slate-400 text-sm font-light">
+          <Loader2 className="h-4 w-4 animate-spin text-electric-blue" />
+          <span>Verifying Admin Session...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // If not authenticated and not on login page, guard against flashing content
+  if (!isAuthenticated) {
+    return null;
+  }
 
   const navLinks = [
     { name: "Dashboard", href: "/admin", icon: <LayoutDashboard className="h-5 w-5" /> },
