@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Zap, Lock, Mail, AlertTriangle, CheckCircle2, Loader2 } from "lucide-react";
 
@@ -9,6 +10,28 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const router = useRouter();
+
+  // If already authenticated with an active session, navigate directly to dashboard
+  useEffect(() => {
+    let mounted = true;
+    const checkActiveSession = async () => {
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        if (mounted && session?.user) {
+          router.replace("/admin");
+        }
+      } catch {
+        // Fall through to show login form
+      }
+    };
+    checkActiveSession();
+    return () => {
+      mounted = false;
+    };
+  }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,9 +55,7 @@ export default function AdminLogin() {
 
       if (data?.session || data?.user) {
         setSuccessMsg("Authentication verified! Opening One8 Control Desk...");
-        setTimeout(() => {
-          window.location.href = "/admin";
-        }, 200);
+        router.replace("/admin");
       } else {
         setErrorMsg("Authentication did not establish a valid session. Please verify your Supabase user.");
         setLoading(false);

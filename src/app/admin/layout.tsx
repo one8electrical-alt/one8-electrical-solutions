@@ -29,27 +29,65 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const isLoginPage = pathname === "/admin/login";
 
   useEffect(() => {
-    // If on login page, do not enforce auth check in layout
-    if (isLoginPage) {
-      setAuthChecking(false);
-      return;
-    }
-
     let isMounted = true;
 
-    // Supabase onAuthStateChange is the official event-driven way to handle initial session loading
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
-      if (!isMounted) return;
+    // Set checking state if navigating to protected route and not yet authenticated
+    if (!isLoginPage && !isAuthenticated) {
+      setAuthChecking(true);
+    }
 
-      if (session) {
-        setIsAuthenticated(true);
-        setAuthChecking(false);
-      } else {
+    // 1. Authoritative session check using getSession() (awaits storage resolution)
+    const checkAuth = async () => {
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+
+        if (!isMounted) return;
+
+        if (session?.user) {
+          setIsAuthenticated(true);
+          setAuthChecking(false);
+          if (isLoginPage) {
+            router.replace("/admin");
+          }
+        } else {
+          setIsAuthenticated(false);
+          setAuthChecking(false);
+          if (!isLoginPage) {
+            router.replace("/admin/login");
+          }
+        }
+      } catch {
+        if (!isMounted) return;
         setIsAuthenticated(false);
         setAuthChecking(false);
-        router.replace("/admin/login");
+        if (!isLoginPage) {
+          router.replace("/admin/login");
+        }
+      }
+    };
+
+    checkAuth();
+
+    // 2. Real-time auth listener for session events (SIGNED_IN, SIGNED_OUT, TOKEN_REFRESHED)
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!isMounted) return;
+
+      if (session?.user) {
+        setIsAuthenticated(true);
+        setAuthChecking(false);
+        if (isLoginPage) {
+          router.replace("/admin");
+        }
+      } else if (event === "SIGNED_OUT") {
+        setIsAuthenticated(false);
+        setAuthChecking(false);
+        if (!isLoginPage) {
+          router.replace("/admin/login");
+        }
       }
     });
 
