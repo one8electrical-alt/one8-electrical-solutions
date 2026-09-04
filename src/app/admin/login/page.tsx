@@ -21,7 +21,7 @@ export default function AdminLogin() {
           data: { session },
         } = await supabase.auth.getSession();
         if (mounted && session?.user) {
-          window.location.href = "/admin";
+          router.replace("/admin");
         }
       } catch {
         // Fall through to show login form
@@ -55,9 +55,7 @@ export default function AdminLogin() {
 
       if (data?.session || data?.user) {
         setSuccessMsg("Authentication verified! Opening One8 Control Desk...");
-        // Ensure session is readable from storage before clean navigation
-        await supabase.auth.getSession();
-        window.location.href = "/admin";
+        router.replace("/admin");
       } else {
         setErrorMsg("Authentication did not establish a valid session. Please verify your Supabase user.");
         setLoading(false);
